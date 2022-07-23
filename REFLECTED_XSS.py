@@ -12,7 +12,7 @@ def get_forms(url):
 
 
 def get_form_details(form):
-    """extracts all the HTML form's information such as action/method/input field into a list and returns the list"""
+    """extracts all the HTML form's information such as action/method/input field into a dict and returns the dict"""
     details = {}
     action_attribute = form.attrs.get("action").lower()
     form_method = form.attrs.get("method", "get").lower()
