@@ -21,7 +21,7 @@ def input_values(email):
 
 
 def check_login(url, values):
-    """scans the website and returns True if xss vulnerabilities are found, False otherwise"""
+    """scans the website and returns True if sql vulnerabilities are found, False otherwise"""
     is_vulnerable = False
     for input_value in values:
         response = requests.post(url, data=input_value)
