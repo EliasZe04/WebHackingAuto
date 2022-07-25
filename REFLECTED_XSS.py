@@ -37,7 +37,7 @@ def send_requests(forms_details, url, value):
             input["type"] = value  # Puts the script in the text and search parameter values
         input_name = input.get("name")
         if input_name: # if input name is not none, add him to the form submission
-            data[input_name] = value
+            data[input_name] = value  # loads the parameters as a key with the script as a value in the dictionary
             
     # submits the form submission to the target url
     if forms_details["method"] == "post":
